@@ -1,0 +1,9 @@
+Flask==1.1.2
+requests==2.25.1
+ptvsd==4.3.2 # Required for debugging.
+pandas
+google-api-python-client
+oauth2client
+pygsheets
+flask_cors
+Flask-HTTPAuth

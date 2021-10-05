@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "multitouchattribution-309217",
+  "private_key_id": "fa5a71a4a4702156b26405117e1e155a65cb9df6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCLWxoJs3x6kzMJ\ng1it5qj3XK7cuIsTbqCyg+pHoxyr2SrC1Fe1IXWdF6SmLlSuewTyIXXu/B7FurGA\nzwCFyCL4C9RKWjfQO2+7fsZxOKg/5IxIPpMyNJXYjs+P/5vfrAz0q42UWs1mKqFH\ngKyrocthIa/HeNLp2/AmOcFvXClneVVtHZp5mVrm8QmuftSL1srSQImWB96beSoW\nVaWAA6W/WuR3vRiDzz5gXqKDiaprRvjqVnQoLARmBNOSIsIId1rjxMwhCtpaJeCy\neLLycCyqjbFvWclvYEFC8m6GIa2WNK1TEzpldYOylP89h1hIunMiaDe+wjJpHMmE\ndWVSrlhnAgMBAAECggEABD7D/9lvAVQFSf+Q/OXdfEgKEsEFUOlWuFJXGZsgOAag\nPfZErp4bpx1zC+soEFpreJheISC7SCOe68S35LDAip+m9iP+xJrueN7XWvSAq5xF\nabw3JtIomuA+2ZCVKa65aBcgAeMs6VGflJNfy6jrAEUoN3RGzeOji2oeHC87cBt4\nZT5E1PkzFrDyswzqSYh/LIxFnJCJWKfGBc7luyRMPNNLZyIaHXpVdSmv29CHjknK\nOE6cV4W0Qbf7dVNStq3MiybifbH2LXCHHH3XwdBF+tnX//KH38pFOX3CnankB03X\nGLQ4MmAEUfP5lqTZdCtuYWtIZmT9H2Y/RbwqSX3IgQKBgQDABSBBlfsz+B87Cww0\nFHwl0iKQiZQXFE5t5BAuJzEWWH12twY+KbcpJSa81WVK0qiw6OIVQnX6mdlsokQD\nGTfg3FCjuGfBxZaUU/4DZ3yVWArrr/rgdHn9I0VH5EcETiRd6nv6ryLX/k1Ih50K\nbC23A38m+pm8FcsQcYmfIQwITQKBgQC5ydeU4gvoQfasKNqwvIZvsdOb0cMJJFD5\nXzuNT8kt6yRoxK58fGbPFXyNqnHnYmtEUT+SUFzDUVMziPzyFUBuZSl2AxRaFPQo\nRwxDiI3VRNsVawrt7PJjjk+AlGWAGGiCFqtsALmIzTQ5kPU71f8Sd0KI6hs+0wBI\nhUIrI5r9gwKBgAnJ+Rv+1mCO3KC47nVVOgL/lG2D5f3LNjhZ8Q05SEJYXoUHzZSr\nsb+yOihURKas2Ja0OJpW2gbdgv0LxKXXykZ3VNET3I4/UW7cXU21H9/JLj1XqlV4\n+qMSAj0pAQnSJf53rrxX41HZj/0LlNDsNORolDnbeqzg+4oqD5cCK0fdAoGAXZ5Y\nA63kUiTrJ9VuXaCiHaZ9+wa4QOML6p0SZSLPPVRABIsXYaNOKwuot7orq2zsoIBQ\niGn2VHWmd1GQJGyRCw/u1Ii4uKvWXHVwuJcW4WDRBPnrh/jeK0yKw0AD5YhnISZL\nOyEiXM0Kg/eHm5856RQvcs6E7CNnASQlM5e9ggECgYAvGl1Wnme87fqWMeJcAbb9\nEA0j/NKXFdhFOPONifiXuk9zq2OOBtRKt80DWWXn0nrC74st2keqLV0l5sE86N0V\nWVqhjKtCnsT6s3GYxCAZFJs64ivhZc0IGWkhedcBbOxal5LaF/KaLc3yHHfWAPw3\nIbGqRt1apJCzcRW4EGsRvw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "iam-service@multitouchattribution-309217.iam.gserviceaccount.com",
+  "client_id": "106932410717849337541",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/iam-service%40multitouchattribution-309217.iam.gserviceaccount.com"
+}

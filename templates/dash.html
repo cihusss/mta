@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MTA</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	<style>
+		html { height: 100%; }
+		
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			display: flex;
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			overflow-x: hidden;
+    		font-family: sans-serif;
+		}
+
+		body, form, label, input {
+			background: #fff;
+			color: #333;
+			align-items: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.row {
+			display: flex;
+		    flex-direction: row;
+		    width: 100%;
+		}
+
+		.logo {
+		    margin: -64px 0 48px 0;
+		    font-family: 'Audiowide', cursive;
+		    font-size: 24px;
+		    width: 100%;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    background: #f6f6f6;
+		    padding: 64px;
+		    border-radius: 0 0 6px 6px;
+		}
+		.blue {
+			color: #0072F0;
+			font-size: 32px;
+			padding-left: 1px;
+			margin-top:  -5px;
+		}
+		#main-wrap {
+			height: 100%;
+			width: 100%;
+			display: flex;
+		}
+		#wrap {
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    padding: 64px 48px;
+		    background: white;
+		    transition: height .3s;
+		    transition-timing-function: ease-in-out;
+		    box-shadow: 0px 0px 8px 0px rgb(0 0 0 / 15%);
+		    height: 100%;
+		    position: fixed;
+		    z-index: 100;
+		    width: 25%;
+		}
+		#wrap:hover {
+			/*height: 240px;*/
+		}
+
+		form {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-end;
+			width: 100%;
+		}
+		form label {
+	    	/* display: block; */
+	    	font: .8rem 'Fira Sans', sans-serif;
+		}
+
+		form input {
+			border: 1px solid #cacaca;
+			border-radius: 4px;
+			padding: 4px;
+			color: #000;
+			width: 130px;
+			background: #c7c7c7;
+			font: .8rem 'Fira Sans', sans-serif;
+		}
+
+		form input,
+		label {
+		    margin: .4rem 0 0 0;
+		}
+
+		.inputWrap {
+			margin: 0 8px;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+		}
+
+		#submit {
+			margin-top: 24px; 
+			border: none;
+			padding: 24px;
+			background: #0072F0;
+			color: white;
+			border-radius: 32px;
+			width: 220px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: row;
+			max-height: 31px;
+			transition: all 0.3s;
+			opacity: 1;
+			cursor: pointer;
+		}
+
+		#submit:focus {
+			outline: 0;
+		}
+
+		#submit:disabled {
+			opacity: 0.5;
+		}
+
+		#submit:hover {
+			/*background: #ff8100;*/
+		}
+
+		#success, #error {
+			display: none;
+			font: .8rem 'Fira Sans', sans-serif;
+			align-items: center;
+			white-space: nowrap;
+		}
+
+		#success {
+			color: #67fde9;
+		}
+
+		#success img {width: 17px;margin-left: -8px;}
+
+		#error {
+			color: #feabff;
+		}
+
+		#msg {padding-right: 8px;padding-left: 8px;}
+
+		#loader {
+			display: none;
+			border: 4px solid #f3f3f3; 
+			border-top: 4px solid #3498db;
+			border-radius: 50%;width: 12px;
+			height: 12px;
+			animation: spin 2s linear infinite;
+			box-sizing: content-box !important;
+		}
+
+		@keyframes spin {
+			0% {transform: rotate(0deg); }
+			100% {transform: rotate(360deg); }
+		}
+
+		#gogo {display: flex;padding: 0 8px;flex-direction: row;align-items: center;justify-content: center;
+		}
+
+	/*	::-webkit-datetime-edit { padding: 1em; }
+		::-webkit-datetime-edit-fields-wrapper { background: silver; }
+		::-webkit-datetime-edit-text { color: red; padding: 0 0.3em; }
+		::-webkit-datetime-edit-month-field { color: blue; }
+		::-webkit-datetime-edit-day-field { color: green; }
+		::-webkit-datetime-edit-year-field { color: purple; }
+		::-webkit-inner-spin-button { display: none; }*/
+		::-webkit-calendar-picker-indicator { color: #fff; }
+
+		input#litepicker {
+		    width: 220px;
+		    border: 1px solid #cacaca;
+		    min-height: 32px;
+		    padding: 16px;
+		    border-radius: 32px;
+		    text-align: center;
+		    font-size: 14px;
+		}
+
+		input#litepicker:focus {
+			outline: none;
+		}
+
+		a#gsheet {
+			font: .8rem 'Fira Sans', sans-serif !important;
+			margin: 16px 0 0 0;
+			opacity: 0;
+			/*display: none;*/
+			transition: opacity .3s;
+			transition-timing-function: ease-in-out;
+			cursor: default;
+		}
+
+		a#gsheet:visited {
+			color: #555;
+		}
+
+		#right-wrap {
+		    display: flex;
+		    position: relative;
+		    justify-content: flex-end;
+		    align-items: flex-start;
+		    width: 100%;
+		    background-image: url(https://images.unsplash.com/photo-1495195129352-aeb325a55b65?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1055&q=80) !important;
+    		background-size: cover !important;
+    		overflow: hidden;
+		}
+
+		#chart-wrap {
+		    display: flex;
+		    position: relative;
+		    width: 75%;
+		    flex-direction: column;
+		    align-items: center;
+		    justify-content: center;
+		    padding: 16px;
+		    opacity: 0;
+		    transition: opacity .3s;
+		    /*display: none;*/
+		}
+
+		#chart01, #chart02, #chart03, #chart04, #chart05, #chart06 {
+			width: 50%;
+			margin: 16px;
+		    background: white;
+			box-shadow: 0px 0px 8px 0px rgb(0 0 0 / 15%);
+			border-radius: 6px;
+			overflow: hidden;
+		}
+
+		#chart05, #chart06 {
+			/*width: 100%;*/
+			padding: 24px;
+			height: 560px;
+		}
+
+		.chart-height {
+			/*height: 312px;*/
+		}
+
+		select {
+			-webkit-appearance: none;
+			appearance: none;
+            width: 220px;
+            min-height: 48px !important; 
+            border: 1px solid #cacaca;
+            border-radius: 32px;
+            background: white;
+            background-image:
+                linear-gradient(45deg, transparent 50%, #001F5B 50%),
+                linear-gradient(135deg, #001F5B 50%, transparent 50%),
+                linear-gradient(to right, white, white);
+            background-position:
+                calc(100% - 20px) calc(1em + 8px),
+                calc(100% - 15px) calc(1em + 8px),
+                100% 0;
+            background-size:
+                5px 5px,
+                5px 5px,
+                2.5em 2.5em;
+            background-repeat: no-repeat;
+            padding: 2px 6px 0 16px !important;
+            margin-bottom: 24px;
+            color: #333;
+            outline: none;
+            font-size: 14px;
+        }
+
+        #ver {
+        	position: absolute;
+        	left: 0;
+        	bottom: 0;
+        	font-size: 12px;
+        	color: #9a9a9a;
+        	margin: 0 0 12px 12px;
+        	z-index: 101;
+        }
+
+        #message-wrap {
+		    position: absolute;
+		    left: 62.5%;
+		    width: 100%;
+		    text-align: center;
+		}
+
+        #message {
+		    position: relative;
+		    font-size: 42px;
+		    color: #333;
+		    padding: 2px 6px;
+		    background: rgba(255,255,255,0.3);
+		    left: -50%;
+		    top: 50%;
+		    z-index: 100;
+		}
+
+        #message #user {
+		    text-transform: capitalize;
+		    color: #0072F0;
+		}
+
+
+		/*chart hacks*/
+
+		.google-visualization-table-tr-head {
+	    	background-color: #fff !important; 
+	    	text-align: left !important;
+		}
+
+		.google-visualization-table-table td {
+		    padding: 6px .35em !important;
+		}
+
+		.slidecontainer {
+			width: 120px;
+			margin-top: -10px;
+		}
+
+		#decay {
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    /*background: #f3f3f3f3;*/
+		    border-radius: 6px 24px;
+		    margin-bottom: 24px;
+		    border: 1px solid #cacaca;
+		}
+
+		.slider {
+			-webkit-appearance: none;
+			width: 100%;
+			height: 20px;
+			border-radius: 10px;  
+			background: #d3d3d3;
+			outline: none;
+			opacity: 0.7;
+			-webkit-transition: .2s;
+			transition: opacity .2s;
+			text-align: center;
+		}
+
+		.slider:hover {
+			opacity: 1;
+		}
+
+		.slider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			background: #0072F0;
+			cursor: pointer;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%; 
+		}
+
+		.slider::-webkit-slider-thumb:active {
+			background: #ff8100;
+		}
+
+		.slidecontainer p {
+			text-align: center;
+			font-size: 12px;
+		}
+
+		#selector-model {
+			border: none;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="message-wrap">
+		<span id="message">Hi <span id="user">{{user}}</span>, <span id="r-msg">how are you today?</span></span>
+	</div>
+	<div id="main-wrap">
+		<div id="wrap">
+			<div class="logo">Bisk.<span class="blue">MTA</span></div>
+			<select name="University" id="selector" onchange="setPicker()">
+				<option value="59519920" user="3" journey="4" mindate="2021-04-15">MSU.com</option>
+				<option value="440474" user="6" journey="7" mindate="2021-07-14">VU.com</option>
+				<option value="78730995" user="3" journey="4" mindate="2021-07-29">USF.com</option>
+				<option value="676455" user="5" journey="6" mindate="2021-07-29">FT.com</option>
+			</select>
+			<div id="decay">
+				<select name="model" id="selector-model">
+					<!-- <option value="cumulative" disabled>Cumulative</option> -->
+					<option value="decay" selected id="model-title">Model: Exp Time Decay</option>
+					<!-- <option value="first" disabled>First Touch</option> -->
+				</select>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="10" class="slider" id="myRange">
+					<p><span id="sliderval"></span>% / day</p>
+				</div>
+			</div>
+
+			<input id="litepicker" placeholder="Date Range">
+			<button id="submit" onclick="sendRange()" disabled>
+				<span id="msg">Compute</span>
+				<span id="loader"></span>
+				<span id="error"><span class="material-icons">error_outline</span></span>
+				<span id="success"><span class="material-icons">check_circle</span></span>
+			</button>
+			<a id="gsheet" href="https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/edit?usp=sharing" target="_blank">Google Sheet Output</a>
+		</div>
+		<div id="right-wrap">
+			<div id="chart-wrap">
+				<div class="row">
+					<div id="chart01" class="chart-height"></div>
+					<div id="chart02" class="chart-height"></div>
+				</div>
+				<div class="row">
+					<div id="chart03" class="chart-height"></div>
+					<div id="chart04" class="chart-height"></div>
+				</div>
+				<div class="row">
+					<div id="chart05"></div>
+					<div id="chart06"></div>
+				</div>
+				<!-- <div class="row">
+					<div id="chart06"></div>
+				</div> -->
+			</div>
+		</div>
+		<div id="ver">mta.rc3.2</div>
+	</div>
+</body>
+	<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+	<script type="text/javascript">
+
+		let r_text = new Array ();
+		r_text[0] = "how is your day going?";
+		r_text[1] = "who ate my nuggets?";
+		r_text[2] = "did somebody say MTA?";
+		r_text[3] = "let's start computing!";
+		r_text[4] = "appreciate you stopping by!";
+		r_text[5] = "always good to see you!";
+
+		var i = Math.floor(r_text.length * Math.random());
+
+		document.getElementById('r-msg').innerHTML = r_text[i];
+
+		let slider = document.getElementById('myRange');
+		let output = document.getElementById('sliderval');
+		let sliderval = 10;
+		output.innerHTML = slider.value;
+
+		slider.oninput = function() {
+			output.innerHTML = this.value;
+			sliderval = this.value
+
+			if (sliderval == 0) {
+				document.getElementById('model-title').innerHTML = 'Model: Cumulative';
+			}
+			else {
+				document.getElementById('model-title').innerHTML = 'Model: Exp Time Decay';
+			}
+		}
+
+		slider.addEventListener('click', (e) => {
+			document.getElementById('chart-wrap').style.opacity = '0';
+			document.getElementById('message').style.opacity = '1';
+			console.log('click');
+		});
+
+		let date = new Date().toISOString().substr(0, 10);
+		let x = document.getElementById('selector').selectedIndex;
+  		let y = document.getElementById('selector').options;
+		let mindate = y[x].getAttribute('mindate');
+
+		// console.log(date);
+
+		const picker = new Litepicker({ 
+			element: document.getElementById('litepicker'),
+			singleMode: false,
+			numberOfMonths: 1,
+			maxDays: 30,
+			minDays: 5,
+			numberOfColumns: 1,
+			minDate: mindate,
+			maxDate: date
+		});
+
+		picker.setDate(date);
+
+		picker.on('change:month', (date, calendarIdx) => {
+			console.log('change!!')
+			// document.getElementById('submit').removeAttribute('disabled');
+			document.getElementById("success").style.display = "none";
+			document.getElementById('chart-wrap').style.opacity = '0';
+			document.getElementById('message').style.opacity = '1';
+			document.getElementById('right-wrap').style.overflow = 'hidden';
+			// document.querySelectorAll('body')[0].style.height = '100%';
+		});
+
+		picker.on('preselect', (date1, date2) => {
+		    document.getElementById('submit').removeAttribute('disabled');
+		});
+
+		document.getElementById('litepicker').addEventListener('click', (e) => {
+			document.getElementById('success').style.display = 'none';
+			document.getElementById('error').style.display = 'none';
+			document.getElementById('gsheet').style.opacity = '0';
+			document.getElementById('chart-wrap').style.opacity = '0';
+			document.getElementById('message').style.opacity = '1';
+			document.getElementById('right-wrap').style.overflow = 'hidden';
+			// document.querySelectorAll('body')[0].style.height = '100%';
+		})
+
+		setPicker = (e) => {
+			picker.clearSelection();
+			document.getElementById('success').style.display = 'none';
+			document.getElementById('error').style.display = 'none';
+			document.getElementById('gsheet').style.opacity = '0';
+			document.getElementById('submit').disabled = true;
+			document.getElementById('chart-wrap').style.opacity = '0';
+			document.getElementById('message').style.opacity = '1';
+			document.getElementById('right-wrap').style.overflow = 'hidden';
+			// document.querySelectorAll('body')[0].style.height = '100%';
+
+			x = document.getElementById('selector').selectedIndex;
+	  		y = document.getElementById('selector').options;
+			mindate = y[x].getAttribute('mindate');
+			console.log(mindate);
+
+			picker.setOptions({
+				minDate: mindate
+			})
+		}
+
+		sendRange = () => {
+			event.preventDefault();
+			document.getElementById('submit').disabled = true;
+
+			if (typeof xhttp == 'undefined') {
+
+				document.getElementById('loader').style.display = 'block';
+				document.getElementById('success').style.display = 'none';
+				document.getElementById('error').style.display = 'none';
+				document.getElementById('chart-wrap').style.opacity = '0';
+				document.getElementById('message').style.opacity = '1';
+				document.getElementById('right-wrap').style.overflow = 'hidden';
+				// document.querySelectorAll('body')[0].style.height = '100%';
+
+				let startDate = picker.getStartDate();
+				console.log(startDate);
+				startDate = startDate.dateInstance.toISOString().split('T')[0];
+
+				let endDate = picker.getEndDate();
+				endDate = endDate.dateInstance.toISOString().split('T')[0];
+
+				x = document.getElementById('selector').selectedIndex;
+  				y = document.getElementById('selector').options;
+				viewID = y[x].value;
+				userID = y[x].getAttribute('user');
+				journeyID = y[x].getAttribute('journey');
+				console.log(viewID);
+				console.log(userID);
+				console.log(journeyID);
+		  		// let url = 'https://mta-y2u6oyxxua-ue.a.run.app/?startdate=' + startDate + '&enddate=' + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID;
+		  		let url = '/compute?startdate=' + startDate + '&enddate=' + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID + '&sliderval=' + sliderval;
+				console.log(url);
+
+				let xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+							document.getElementById('success').style.display = 'flex';
+							document.getElementById('loader').style.display = 'none';
+							google.charts.load('current', {packages: ['corechart', 'table']});
+	    					google.charts.setOnLoadCallback(drawSheet01);
+	    					google.charts.setOnLoadCallback(drawSheet02);
+	    					google.charts.setOnLoadCallback(drawSheet03);
+	    					google.charts.setOnLoadCallback(drawSheet04);
+	    					google.charts.setOnLoadCallback(drawSheet05);
+	    					google.charts.setOnLoadCallback(drawSheet06);
+	    					document.getElementById('gsheet').style.opacity = '1';
+	    					document.getElementById('submit').disabled = false;
+	    					document.getElementById('chart-wrap').style.opacity = '1';
+	    					document.getElementById('message').style.opacity = '0';
+	    					document.getElementById('right-wrap').style.overflow = 'auto';
+	    					// document.querySelectorAll('body')[0].style.height = 'auto';
+						}
+					else if (this.status == 500) {
+						document.getElementById('error').style.display = 'flex';
+						document.getElementById('loader').style.display = 'none';
+						document.getElementById('submit').disabled = false;
+					}
+				}
+				
+				xhttp.open('GET', url, true);
+				xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				xhttp.send();
+				console.log(startDate + ' - ' + endDate);
+			}
+
+			else {
+				xhttp.abort();
+				console.log('aborting...');
+			}
+		}
+
+		let inputField = document.querySelectorAll('input[type="date"]');
+
+		inputField.forEach(element => {
+			element.addEventListener('click', function () {
+				document.getElementById('loader').style.display = 'none';
+				document.getElementById('success').style.display = 'none';
+				document.getElementById('error').style.display = 'none';
+			})
+		});
+
+		// Google Charts
+
+		let w = window.innerWidth;
+		let ch = 342;
+		let wh = document.querySelectorAll('.chart-height');
+
+		console.log(w)
+
+		if (w > 1440) {
+			ch = 432;
+			wh.forEach(element => {
+				element.style.height = '432px';
+			});
+		}
+		else {
+			wh.forEach(element => {
+				element.style.height = '342px';
+			});
+		}
+
+	    drawSheet01 = () => {
+			let queryString = encodeURIComponent('SELECT A, B LIMIT 50 OFFSET 0');
+			let query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium&headers=1&tq=' + queryString);
+			query.send(handleSheet01res);
+	    }
+
+	    drawSheet02 = () => {
+			let queryString = encodeURIComponent('SELECT A, B, C, D, E, F, G, H, I, J, K, L, M, N LIMIT 50 OFFSET 0');
+			let query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium_bucketed_sum&headers=1&tq=' + queryString);
+			query.send(handleSheet02res);
+	    }
+
+	    drawSheet03 = () => {
+			let queryString = encodeURIComponent('SELECT A, B LIMIT 50 OFFSET 0');
+			let query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium_avg&headers=1&tq=' + queryString);
+			query.send(handleSheet03res);
+	    }
+
+	    drawSheet04 = () => {
+			let queryString = encodeURIComponent('SELECT A, B LIMIT 50 OFFSET 0');
+			let query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium_bucketed_per&headers=1&tq=' + queryString);
+			query.send(handleSheet04res);
+	    }
+
+	    drawSheet05 = () => {
+			let queryString = encodeURIComponent('SELECT A, B LIMIT 50 OFFSET 0');
+			let query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=campaign/conversions&headers=1&tq=' + queryString);
+			query.send(handleSheet05res);
+	    }
+
+	    drawSheet06 = () => {
+			let queryString = encodeURIComponent('SELECT A, B LIMIT 50 OFFSET 0');
+			let query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=campaign/conversion_rates&headers=1&tq=' + queryString);
+			query.send(handleSheet06res);
+	    }
+
+	    handleSheet01res = (response) => {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			let data = response.getDataTable();
+			let options = {
+				title: 'Touchpoints / Medium by Exponential Time Decay',
+				pieHole: 0.4,
+				height: ch,
+				legend: { position: 'bottom', maxLines: 3 }
+			}
+			let chart01 = new google.visualization.PieChart(document.getElementById('chart01'));
+			chart01.draw(data, options);
+	    }
+
+	    handleSheet02res = (response) => {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			let data = response.getDataTable();
+			// console.log(data);
+
+			// remove null cols from data
+			let idx = 0;
+
+			for (let el of data.bf) {
+				if (el.label == '') {
+					console.log('empty');
+					// console.log(data.bf.indexOf(el));
+					idx = data.bf.indexOf(el);
+					data.bf.splice(idx, 10);
+					break;
+				}
+			}
+
+			// data.bf.splice(idx, 5);
+			// console.log(idx);
+			// console.log(data.Wf[1].c);
+			console.log(data);
+
+			let options = {
+				title: 'Medium Composition by Journey in Touchpoints',
+				height: ch,
+				legend: { position: 'bottom', maxLines: 3 },
+        		bar: { groupWidth: '75%' },
+        		isStacked: true
+			}
+			let chart02 = new google.visualization.BarChart(document.getElementById('chart02'));
+			chart02.draw(data, options);
+	    }
+
+	    handleSheet03res = (response) => {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			let data = response.getDataTable();
+			// console.log(data.Wf);
+
+			// data = google.visualization.arrayToDataTable([
+			// 	['Medium', 'average touchpoints', { role: 'style' }],
+			// 	['cpc', data.Wf[0].c[1], 'rgb(51, 102, 204)'],
+			// 	['organic', data.Wf[1].c[1], 'rgb(220, 57, 18)'],
+			// 	['referral', data.Wf[2].c[1], 'rgb(255, 153, 0)'],
+			// 	['direct', data.Wf[3].c[1], 'rgb(16, 150, 24)'],
+			// 	['partner', data.Wf[4].c[1], 'rgb(153, 0, 153)']
+			// ]);
+
+			let options = {
+				title: 'Average Touchpoints / Medium',
+				height: ch,
+				legend: 'none'
+				// isStacked: true
+				// colors: ['red', 'green']
+			}
+			let chart03 = new google.visualization.ColumnChart(document.getElementById('chart03'));
+			chart03.draw(data, options);
+	    }
+
+	    handleSheet04res = (response) => {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			let data = response.getDataTable();
+
+			let formatter = new google.visualization.NumberFormat({suffix: '%'});
+			formatter.format(data, 1);
+			
+			// console.log(data);
+			let options = {
+				title: 'Total Touchpoints Needed to Convert by Journey',
+				height: ch,
+				// legend: { position: 'bottom', maxLines: 3 },
+				legend: 'none',
+				isStacked: false
+			}
+			let chart04 = new google.visualization.ColumnChart(document.getElementById('chart04'));
+			chart04.draw(data, options);
+	    }
+
+	    handleSheet05res = (response) => {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			let data = response.getDataTable();
+			
+			// console.log(data);
+			let options = {
+				title: 'Campaign Conversions',
+				height: '600px',
+				width: '100%',
+				// legend: { position: 'bottom', maxLines: 3 },
+				legend: 'none',
+				isStacked: false
+			}
+
+			let chart05 = new google.visualization.Table(document.getElementById('chart05'));
+			data.setProperties(0, 0, {style: 'text-align:left;'});
+			chart05.draw(data, options);
+	    }
+
+	    handleSheet06res = (response) => {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			let data = response.getDataTable();
+			
+			// console.log(data);
+			let options = {
+				title: 'Campaign Conversions',
+				height: '600px',
+				width: '100%',
+				// legend: { position: 'bottom', maxLines: 3 },
+				legend: 'none',
+				isStacked: false
+			}
+
+			let chart06 = new google.visualization.Table(document.getElementById('chart06'));
+			data.setProperties(0, 0, {style: 'text-align:left;'});
+			chart06.draw(data, options);
+	    }
+
+	</script>
+</html>
